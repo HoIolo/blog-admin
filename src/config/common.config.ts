@@ -1,0 +1,1 @@
+export const waitTime = 1500 // 等待时间

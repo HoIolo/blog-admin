@@ -1,0 +1,49 @@
+$card_padding: 25px;
+$card_border_radius: 12px;
+$theme_background_color: #fff;
+$theme_text_color: #000;
+$theme_shadow: 0 0 10px #e3e3e3;
+$gap: 15px;
+
+.home {
+  padding: 15px;
+  color: $theme_text_color;
+
+  .top_card {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .card {
+      display: flex;
+      justify-content: space-between;
+      width: calc(100% / 4 - 15px);
+      margin: 0 0 $gap;
+      background-color: $theme_background_color;
+      padding: $card_padding;
+      border-radius: $card_border_radius;
+      // color: rgba(255, 255, 255, 0.85);
+      font-size: 18px;
+      box-shadow: $theme_shadow;
+
+      .info {
+        text-align: center;
+
+        .info_title {
+          font-size: 16px;
+        }
+
+        .info_num {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .lineCharts {
+    background-color: $theme_background_color;
+    padding: $card_padding;
+    border-radius: $card_border_radius;
+    box-shadow: $theme_shadow;
+  }
+}
