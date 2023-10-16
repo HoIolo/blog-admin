@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use((res: AxiosResponse) => {
 
     return res
 }, (err: any) => {
-    let { message: responseMessage } = err.response.data
+    let { message: responseMessage } = err?.response?.data || err
     let msg: String = `连接出错(${err.response?.status || 500})!`
     const responseKeys = Object.keys(RESPONSE_ERROR)
 

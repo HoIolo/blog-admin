@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Space, Table, Tag, Switch, Avatar } from "antd";
+import {
+  Space,
+  Table,
+  Tag,
+  Switch,
+  Avatar,
+  Button,
+  Input,
+  Select,
+  Divider,
+} from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { getUsers } from "@/api/user.api";
 import { getUserSex } from "@/utils/common.util";
@@ -29,7 +38,7 @@ const columns: ColumnsType<DataType> = [
     title: "昵称",
     dataIndex: "name",
     key: "name",
-    render: (text) => <a href="#2">{text}</a>,
+    render: (text) => text,
   },
   {
     title: "性别",
@@ -67,7 +76,9 @@ const columns: ColumnsType<DataType> = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a href="#record">删除{record.key}</a>
+        <Button danger type="text">
+          删除{record.key}
+        </Button>
       </Space>
     ),
   },
@@ -86,16 +97,16 @@ const dataHandler = (data: any): DataType[] => {
 };
 
 const Account: React.FC = () => {
-  let { role } = useParams();
   const [userData, setUserData] = useState<any>();
   const [userList, setUserList] = useState<DataType[]>([]);
+
   useEffect(() => {
     async function fetchData() {
       const { data: res } = await getUsers();
       console.log(res);
       if (res.code === 1001) {
         setUserData(res.data);
-        
+
         setUserList(dataHandler(res.data.rows));
       }
     }
@@ -103,13 +114,33 @@ const Account: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      账号管理: {role}
-      <Table
-        columns={columns}
-        dataSource={userList}
-        pagination={{ pageSize: userData?.count }}
-      />
+    <div className="custom_container">
+      <Space direction="vertical" style={{ width: "100%" }} size={0}>
+        <div className="user_list">
+          <div className="user_option bg-white p-4">
+            <Space>
+              <Select
+                defaultValue="jack"
+                className="w-24"
+                options={[
+                  { value: "jack", label: "Jack" },
+                  { value: "lucy", label: "Lucy" },
+                  { value: "Yiminghe", label: "yiminghe" },
+                  { value: "disabled", label: "Disabled", disabled: true },
+                ]}
+              ></Select>
+              <Input placeholder="请输入需要查询的内容"></Input>
+              <Button type="primary">查询</Button>
+            </Space>
+          </div>
+          <Divider style={{ margin: 0 }} />
+          <Table
+            columns={columns}
+            dataSource={userList}
+            pagination={{ pageSize: userData?.count }}
+          />
+        </div>
+      </Space>
     </div>
   );
 };

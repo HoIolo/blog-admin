@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   box-sizing: border-box;
 }
+
 body {
   background-color: #f3f2f2;
   margin: 0;
@@ -17,9 +18,14 @@ body {
 
 .main {
   width: 100%;
+  transition: padding .3s cubic-bezier(0.2, 0, 0, 1) 0s;
 }
 
 .container {
   flex: 1;
   transition: all .5s;
+}
+
+.custom_container {
+  padding: 8px;
 }

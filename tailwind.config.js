@@ -136,6 +136,7 @@ module.exports = {
     },
     caretColor: ({ theme }) => theme('colors'),
     colors: ({ colors }) => ({
+      menucolor: 'rgba(255, 255, 255, 0.65)',
       inherit: colors.inherit,
       current: colors.current,
       transparent: colors.transparent,
