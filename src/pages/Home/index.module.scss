@@ -12,11 +12,13 @@ $gap: 15px;
   .top_card {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
 
     .card {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       width: calc(100% / 4 - 15px);
       margin: 0 0 $gap;
       background-color: $theme_background_color;

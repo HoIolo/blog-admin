@@ -1,37 +1,58 @@
-import { Result, Button } from "antd"
-import Home from "../pages/Home"
-import Account from "../pages/account"
-import Login from "../pages/login"
-import Register from "@/pages/register"
-import { Link } from "react-router-dom"
+import { Result, Button } from "antd";
+import Home from "../pages/Home";
+import Account from "../pages/account";
+import Login from "../pages/login";
+import Register from "@/pages/register";
+import { Link } from "react-router-dom";
 
 const elements = [
   {
     path: "/",
-    element: <Home />
+    name: "首页",
+    element: <Home />,
   },
   {
-    path: '/login',
-    element: <Login />
+    path: "/login",
+    name: "登陆",
+    element: <Login />,
   },
   {
-    path: '/register',
-    element: <Register />
+    path: "/register",
+    name: "注册",
+    element: <Register />,
   },
   {
-    path: '/account/:role',
-    element: <Account />
+    path: "/account",
+    name: "账号管理",
+    children: [
+      {
+        path: "user",
+        name: "用户",
+        element: <Account />,
+      },
+      {
+        path: "admin",
+        name: "管理员",
+        element: "",
+      },
+    ],
   },
   {
-    path: '*',
-    element: <Result
-      status="404"
-      title="404"
-      subTitle="不好意思，页面不存在(404)"
-      className="w-full mt-10"
-      extra={<Link to='/'><Button type="primary">返回首页</Button></Link>}
-    />
-  }
-]
+    path: "*",
+    element: (
+      <Result
+        status="404"
+        title="404"
+        subTitle="不好意思，页面不存在(404)"
+        className="w-full mt-10"
+        extra={
+          <Link to="/">
+            <Button type="primary">返回首页</Button>
+          </Link>
+        }
+      />
+    ),
+  },
+];
 
-export default elements
+export default elements;
