@@ -1,0 +1,16 @@
+:where(.css-dev-only-do-not-override-1352z9z).ant-upload-wrapper .ant-upload-list {
+    background-color: #fff;
+    min-height: calc((66px + 8px) * 5 + 8px);
+    margin: 8px 0;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+:where(.css-dev-only-do-not-override-1352z9z).ant-upload-wrapper .ant-upload-list::before {
+    font-size: 18px;
+    content: "上传列表";
+}
+
+:where(.css-dev-only-do-not-override-1352z9z).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture .ant-upload-list-item {
+    border: none;
+}

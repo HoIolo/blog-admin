@@ -8,8 +8,9 @@ import MyContent from "./content";
 import { getUserInfo } from "./api/user.api";
 import { confirmWhite } from "./utils/common.util";
 import whiteList from "./config/whiteList.config";
+import { App } from "antd";
 
-function App() {
+function AppFC() {
   const element = useRoutes(elements);
   const location = useLocation();
   const [mainPaddingLeft, setmainPaddingLeft] = useState("200px");
@@ -54,30 +55,32 @@ function App() {
 
   return (
     <MyContent.Provider value={{ userInfo }}>
-      <div className="app">
-        {isUseLayout() ? (
-          element
-        ) : (
-          <>
-            <aside style={{ position: "fixed", left: 0, top: 0, zIndex: 1 }}>
-              <TabMenu collapsed={collapsed} />
-            </aside>
-            <div className="main" style={{ paddingLeft: mainPaddingLeft }}>
-              <Header
-                userInfo={userInfo}
-                collapsed={collapsed}
-                changeCollapsed={() => {
-                  setCollapsed(!collapsed);
-                  setmainPaddingLeft(collapsed ? "200px" : "80px");
-                }}
-              />
-              {element}
-            </div>
-          </>
-        )}
-      </div>
+      <App>
+        <div className="app">
+          {isUseLayout() ? (
+            element
+          ) : (
+            <>
+              <aside style={{ position: "fixed", left: 0, top: 0, zIndex: 1 }}>
+                <TabMenu collapsed={collapsed} />
+              </aside>
+              <div className="main" style={{ paddingLeft: mainPaddingLeft }}>
+                <Header
+                  userInfo={userInfo}
+                  collapsed={collapsed}
+                  changeCollapsed={() => {
+                    setCollapsed(!collapsed);
+                    setmainPaddingLeft(collapsed ? "200px" : "80px");
+                  }}
+                />
+                {element}
+              </div>
+            </>
+          )}
+        </div>
+      </App>
     </MyContent.Provider>
   );
 }
 
-export default App;
+export default AppFC;

@@ -74,10 +74,24 @@ const items: MenuItem[] = [
 
   getItem(
     <>
-      <Link to="/images">图片管理</Link>
+      <span>图片管理</span>
     </>,
     "/images",
-    <PictureOutlined rev={undefined} />
+    <PictureOutlined rev={undefined} />,
+    [
+      getItem(
+        <>
+          <Link to="/images/upload">图片上传</Link>
+        </>,
+        "/images/upload",
+      ),
+      getItem(
+        <>
+          <Link to="/images/list">图片列表</Link>
+        </>,
+        "/images/list",
+      )
+    ]
   ),
 ];
 

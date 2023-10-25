@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Account from "../pages/account";
 import Login from "../pages/login";
 import Register from "@/pages/register";
+import ImagesUpload from "@/pages/images/upload";
 import { Link } from "react-router-dom";
 
 const elements = [
@@ -33,6 +34,22 @@ const elements = [
       {
         path: "admin",
         name: "管理员",
+        element: "",
+      },
+    ],
+  },
+  {
+    path: "/images",
+    name: "图片管理",
+    children: [
+      {
+        path: "upload",
+        name: "图片上传",
+        element: <ImagesUpload />,
+      },
+      {
+        path: "list",
+        name: "图片列表",
         element: "",
       },
     ],
