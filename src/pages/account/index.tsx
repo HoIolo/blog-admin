@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Space,
   Table,
@@ -13,6 +12,7 @@ import {
 import type { ColumnsType } from "antd/es/table";
 import { getUsers } from "@/api/user.api";
 import { getUserSex } from "@/utils/common.util";
+import useTableData from "@/hooks/useTableData";
 
 interface DataType {
   key: string;
@@ -97,21 +97,10 @@ const dataHandler = (data: any): DataType[] => {
 };
 
 const Account: React.FC = () => {
-  const [userData, setUserData] = useState<any>();
-  const [userList, setUserList] = useState<DataType[]>([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const { data: res } = await getUsers();
-      console.log(res);
-      if (res.code === 1001) {
-        setUserData(res.data);
-
-        setUserList(dataHandler(res.data.rows));
-      }
-    }
-    fetchData();
-  }, []);
+  const { tableData, responseData } = useTableData({
+    fetchData: getUsers,
+    dataHandler,
+  });
 
   return (
     <div className="custom_container">
@@ -136,8 +125,8 @@ const Account: React.FC = () => {
           <Divider style={{ margin: 0 }} />
           <Table
             columns={columns}
-            dataSource={userList}
-            pagination={{ pageSize: userData?.count }}
+            dataSource={tableData}
+            pagination={{ pageSize: responseData?.count }}
           />
         </div>
       </Space>

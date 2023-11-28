@@ -40,3 +40,19 @@ export const getUserSex = (sex: number): string => {
       return "人妖";
   }
 };
+
+/**
+ * 防抖
+ * @param fn
+ * @param time
+ * @returns
+ */
+export const debounce = (fn: any, time: number) => {
+  let timeout: any = null;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      fn();
+    }, time);
+  };
+};

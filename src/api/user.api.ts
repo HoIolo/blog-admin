@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/types/common";
 import http from "../utils/http";
 
 const PERFIX = "/api/v1";
@@ -34,5 +35,5 @@ export const login = (data: any) => {
  * @returns
  */
 export const getUsers = (data?: any) => {
-  return http.get(PERFIX + "/users", data);
+  return http.get<ApiResponse<any>>(PERFIX + "/users", data);
 };

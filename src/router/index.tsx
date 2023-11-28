@@ -5,6 +5,7 @@ import Login from "../pages/login";
 import Register from "@/pages/register";
 import ImagesUpload from "@/pages/images/upload";
 import { Link } from "react-router-dom";
+import ImageList from "@/pages/images/list";
 
 const elements = [
   {
@@ -50,7 +51,7 @@ const elements = [
       {
         path: "list",
         name: "图片列表",
-        element: "",
+        element: <ImageList />,
       },
     ],
   },

@@ -1,0 +1,7 @@
+.table_item {
+    overflow: hidden;
+
+    :global(.ant-table-cell) {
+        max-width: 400px;
+    }
+}
