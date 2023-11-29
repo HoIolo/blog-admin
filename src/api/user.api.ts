@@ -37,3 +37,11 @@ export const login = (data: any) => {
 export const getUsers = (data?: any) => {
   return http.get<ApiResponse<any>>(PERFIX + "/users", data);
 };
+
+/**
+ * 退出登陆
+ * @returns
+ */
+export const logout = () => {
+  return localStorage.removeItem("token");
+};
