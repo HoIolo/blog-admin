@@ -1,5 +1,13 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { UploadProps, ConfigProvider, UploadFile, Button, App } from "antd";
+import {
+  UploadProps,
+  ConfigProvider,
+  UploadFile,
+  Button,
+  App,
+  Space,
+  Select,
+} from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import "./index.css";
 import { useState } from "react";
@@ -22,12 +30,14 @@ const ImagesUpload: React.FC = () => {
   });
   const [uploading, setUploading] = useState(false);
 
+  const [islocal, setIslocal] = useState("true");
+
   const handleUpload = () => {
     setUploading(true);
     for (let i = 0; i < uploadFile.fileList.length; i++) {
       const formData = new FormData();
       formData.append("file", uploadFile.fileList[i] as RcFile);
-      formData.append("local", "true");
+      formData.append("local", islocal);
       uploadImage(formData, (progressEvent: AxiosProgressEvent) => {
         const percent = Math.round(
           (progressEvent.loaded / (progressEvent.total as number)) * 100
@@ -114,6 +124,8 @@ const ImagesUpload: React.FC = () => {
     },
   };
 
+  const changeUploadPicSource = (value: string) => setIslocal(value);
+
   return (
     <div className="custom_container">
       <ConfigProvider
@@ -124,17 +136,30 @@ const ImagesUpload: React.FC = () => {
           },
         }}
       >
-        <Dragger {...props}>
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined rev={undefined} />
-          </p>
-          <p className="ant-upload-text">
-            点击此处，或者将文件拖到此处进行上传
-          </p>
-          <p className="ant-upload-hint">
-            支持单个或批量上传。严格禁止 上传公司数据或其他被禁止的文件。
-          </p>
-        </Dragger>
+        <Space direction="vertical" className="w-full">
+          <Space className="action">
+            <span>上传方式:</span>
+            <Select
+              defaultValue={islocal}
+              onChange={changeUploadPicSource}
+              options={[
+                { value: "true", label: "本地" },
+                { value: "false", label: "远程" },
+              ]}
+            ></Select>
+          </Space>
+          <Dragger {...props}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined rev={undefined} />
+            </p>
+            <p className="ant-upload-text">
+              点击此处，或者将文件拖到此处进行上传
+            </p>
+            <p className="ant-upload-hint">
+              支持单个或批量上传。严格禁止 上传公司数据或其他被禁止的文件。
+            </p>
+          </Dragger>
+        </Space>
         <div className="upload_option text-right">
           <Button
             type="primary"

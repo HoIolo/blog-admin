@@ -46,7 +46,7 @@ const ImageList: React.FC = () => {
   const { tableData, isloading, fetchTableData } = useTableData<Image>({
     fetchData: () => getImages(getImagesParams),
     dataHandler: dataHandler,
-    watachData: [getImagesParams],
+    watchData: [getImagesParams],
   });
 
   const [picSourceSelect] = useState([
