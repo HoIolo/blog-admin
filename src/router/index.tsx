@@ -6,6 +6,7 @@ import Register from "@/pages/register";
 import ImagesUpload from "@/pages/images/upload";
 import { Link } from "react-router-dom";
 import ImageList from "@/pages/images/list";
+import Article from "@/pages/article";
 
 const elements = [
   {
@@ -38,6 +39,11 @@ const elements = [
         element: "",
       },
     ],
+  },
+  {
+    path: "/article",
+    name: "文章管理",
+    element: <Article />,
   },
   {
     path: "/images",

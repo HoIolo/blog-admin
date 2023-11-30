@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./index.css";
 
@@ -54,7 +54,13 @@ const items: MenuItem[] = [
     ),
   ]),
 
-  getItem("文章管理", "sub2", <BookOutlined rev={undefined} />),
+  getItem(
+    <>
+      <Link to="/article">文章管理</Link>
+    </>,
+    "/article",
+    <BookOutlined rev={undefined} />
+  ),
 
   getItem(
     <>
@@ -83,14 +89,14 @@ const items: MenuItem[] = [
         <>
           <Link to="/images/upload">图片上传</Link>
         </>,
-        "/images/upload",
+        "/images/upload"
       ),
       getItem(
         <>
           <Link to="/images/list">图片列表</Link>
         </>,
-        "/images/list",
-      )
+        "/images/list"
+      ),
     ]
   ),
 ];

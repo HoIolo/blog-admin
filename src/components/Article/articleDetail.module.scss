@@ -1,0 +1,7 @@
+.pic-uploader {
+  :global(.ant-upload) {
+    width: 200px !important;
+    height: 100% !important;
+    min-height: 200px;
+  }
+}

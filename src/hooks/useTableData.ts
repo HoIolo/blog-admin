@@ -1,11 +1,20 @@
 import { CODE } from "@/constant/global";
 import { ApiResponse, ResponseData } from "@/types/common";
+import { TablePaginationConfig } from "antd";
+import { FilterValue } from "antd/es/table/interface";
 import { useEffect, useState } from "react";
 
 interface TableDataOptions<T> {
   fetchData: (...args: any) => Promise<{ data: ApiResponse<T> }>;
   dataHandler: (data: T[]) => any[];
-  watachData?: any[];
+  watchData?: any[];
+}
+
+interface TableParams {
+  pagination?: TablePaginationConfig;
+  sortField?: string;
+  sortOrder?: string;
+  filters?: Record<string, FilterValue | null>;
 }
 
 /**
@@ -13,7 +22,7 @@ interface TableDataOptions<T> {
  * @template T 数据类型
  * @param {TableDataOptions<T>} fetchData - 获取数据的函数
  * @param {TableDataOptions<T>} dataHandler - 处理数据的函数
- * @param {TableDataOptions<T>} watachData - 监听的数据
+ * @param {TableDataOptions<T>} watchData - 监听的数据
  * @returns {{
  *   tableData: any[] - 表格数据
  *   fetchTableData: Function - 异步获取表格数据的函数
@@ -25,11 +34,17 @@ interface TableDataOptions<T> {
 const useTableData = <T>({
   fetchData,
   dataHandler,
-  watachData = [],
+  watchData = [],
 }: TableDataOptions<T>) => {
   const [tableData, setTableData] = useState<any[]>();
   const [responseData, setResponseData] = useState<ResponseData<T>>();
   const [isloading, setloading] = useState(false);
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
 
   /**
    * 异步获取表格数据
@@ -43,6 +58,13 @@ const useTableData = <T>({
       if (data.code === CODE.SUCCESS) {
         setTableData(dataHandler(data.data?.rows || []));
         setResponseData(data.data);
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            total: data.data?.count || 0,
+          },
+        });
       }
     } catch (error) {
       console.error("Error fetching table data:", error);
@@ -53,14 +75,17 @@ const useTableData = <T>({
   useEffect(() => {
     fetchTableData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, watachData);
+  }, watchData.concat([tableParams.filters, tableParams.sortOrder, tableParams.sortField, tableParams.pagination?.current]));
 
   return {
     tableData,
+    setTableData,
     fetchTableData,
     responseData,
     setResponseData,
     isloading,
+    setTableParams,
+    tableParams,
   };
 };
 
