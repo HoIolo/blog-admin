@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate()
 
     const onFinish = async (values: any) => {
-        const { data: res } = await login(values)
+        const { data: res } = await login({...values, role: 2})
         if (res.code === 1001) {
             localStorage.setItem('token', res.data.access_token)
             messageApi.success(res.data.message || res.message)
