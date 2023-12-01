@@ -3,7 +3,9 @@ import http from "../utils/http";
 
 const PREFIX = "/api/v1";
 
-export type GetArticleType = PageParams & {};
+export type GetArticleType = PageParams & {
+  sorted?: 'DESC' | 'ASC';
+};
 /**
  * 获取文章列表
  * @param params 

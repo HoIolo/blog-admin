@@ -46,6 +46,7 @@ const Article: React.FC = () => {
     page: 1,
     pageSize: 10,
     keyword: "",
+    field: "",
   });
 
   const {
@@ -142,11 +143,27 @@ const Article: React.FC = () => {
     filters: Record<string, FilterValue | null>,
     sorter: SorterResult<DataType> | SorterResult<DataType>[]
   ) => {
-    console.log(filters, sorter);
-    
+    console.log(filters, sorter as SorterResult<DataType>);
+    const order = (sorter as SorterResult<DataType>).order;
+    let sorted: "DESC" | "ASC" = "DESC";
+    switch (order) {
+      case "ascend":
+        sorted = "ASC";
+        break;
+      case "descend":
+        sorted = "DESC";
+        break;
+      default:
+        sorted = "DESC";
+    }
+    const { type } = filters;
+
     setArticleParams({
       page: pagination.current,
       pageSize: pagination.pageSize,
+      sorted: sorted as any,
+      field: "type",
+      keyword: type?.join(","),
     });
     setTableParams({
       pagination,
