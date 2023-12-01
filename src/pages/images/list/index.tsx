@@ -1,9 +1,9 @@
 import { GetImagesData, delImage, getImages } from "@/api/image.api";
 import { Image } from "@/types/image";
 import {
-  Avatar,
   Button,
   Divider,
+  Image as ImageComponent,
   Input,
   Popconfirm,
   Select,
@@ -76,7 +76,7 @@ const ImageList: React.FC = () => {
       title: "图片",
       dataIndex: "pic",
       key: "pic",
-      render: (url: any) => <Avatar src={url} size={32} />,
+      render: (url: any) => <ImageComponent src={url} width={100} height={50} />,
     },
     {
       title: "图片名称",
