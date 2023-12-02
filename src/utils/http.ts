@@ -5,6 +5,8 @@ import Axios, {
 } from "axios";
 import { message } from "antd";
 import { RESPONSE_ERROR, axiosConfig } from "@/config/axiox.config";
+import { confirmWhite } from "./common.util";
+import whiteList from "@/config/whiteList.config";
 
 const axiosInstance: AxiosInstance = Axios.create({ ...axiosConfig });
 
@@ -41,20 +43,21 @@ axiosInstance.interceptors.response.use(
     }
 
     const { location } = window;
+    const isInWhiteList = confirmWhite(
+      whiteList,
+      "pathWhiteList",
+      location.pathname
+    );
+    const isError = err?.response === undefined && !isInWhiteList;
     const isNotLogin =
       err.response?.status === RESPONSE_ERROR.Unauthorized.CODE &&
-      location.pathname !== "/login" &&
-      location.pathname !== "/register";
-    await message.error(msg);
+      !isInWhiteList;
+    message.error(msg);
     // 未登录 并且不在”登陆页“和”注册页“
-    if (isNotLogin) {
-      setTimeout(() => {
-        location.href = "/login";
-      }, 1000);
+    if (isNotLogin || isError) {
+      location.replace("/login");
     }
-    if (err?.response === undefined) {
-      location.href = "/login";
-    }
+
     return Promise.reject(err.response);
   }
 );

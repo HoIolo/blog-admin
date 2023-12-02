@@ -1,4 +1,5 @@
-import { WhiteListKey } from "@/config/whiteList.config";
+import whiteList, { WhiteListKey } from "@/config/whiteList.config";
+import { Location } from "react-router-dom";
 
 /**
  * 确认值是否在白名单
@@ -39,4 +40,33 @@ export const getUserSex = (sex: number): string => {
     default:
       return "人妖";
   }
+};
+
+/**
+ * 判断是否使用布局页面
+ * @param location 当前页面路径
+ * @param routers 布局页面组件
+ * @returns 如果返回值为true，则表示使用布局页面；否则表示不使用布局页面
+ */
+export const isUseLayout = (
+  location: Location,
+  routers: React.ReactElement<
+    any,
+    string | React.JSXElementConstructor<any>
+  > | null
+) => {
+  const currentPath = location.pathname;
+  const currentRoutePath = routers?.props.value.matches[0].route.path;
+
+  let flag = currentRoutePath === "*";
+
+  if (flag) return flag;
+
+  for (let item of whiteList.pathWhiteList) {
+    if (item === currentPath) {
+      flag = true;
+      break;
+    }
+  }
+  return flag;
 };

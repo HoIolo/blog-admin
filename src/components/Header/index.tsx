@@ -1,17 +1,10 @@
 import React from "react";
 import { AntDesignOutlined, HomeOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Avatar,
-  Breadcrumb,
-  Popover,
-  Space,
-  message,
-} from "antd";
+import { Button, Avatar, Breadcrumb, Popover, Space, message } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import "./index.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import elements from "@/router";
+import getElements from "@/router";
 import { logout } from "@/api/user.api";
 
 interface propsType {
@@ -20,7 +13,7 @@ interface propsType {
   userInfo: any;
 }
 const breadcrumbNameMap: Record<string, string> = {};
-elements.forEach((item) => {
+getElements().forEach((item) => {
   breadcrumbNameMap[item.path] = item.name as string;
   recursionAssign(item);
 });
@@ -66,7 +59,7 @@ const Header: React.FC<propsType> = (props: propsType) => {
 
   const logoutClick = () => {
     logout();
-    messageApi.success("退出成功").then(() => {
+    messageApi.success("退出成功", 2).then(() => {
       navigate("/login");
     });
   };
@@ -104,6 +97,7 @@ const Header: React.FC<propsType> = (props: propsType) => {
             <Popover
               content={userInfo ? content : <>您还未登陆</>}
               trigger="hover"
+              placement="bottomRight"
             >
               <Avatar
                 size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48 }}

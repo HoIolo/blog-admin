@@ -1,41 +1,23 @@
-import React, { useEffect, useState } from "react";
-import elements from "./router";
+import { useEffect, useState } from "react";
+import getElements from "./router";
 import { useLocation, useRoutes } from "react-router-dom";
 import "./App.css";
 import TabMenu from "./components/TabMenu";
 import Header from "./components/Header";
 import MyContent from "./content";
 import { getUserInfo } from "./api/user.api";
-import { confirmWhite } from "./utils/common.util";
+import { confirmWhite, isUseLayout } from "./utils/common.util";
 import whiteList from "./config/whiteList.config";
 import { App } from "antd";
 
 function AppFC() {
-  const element = useRoutes(elements);
+  const element = getElements();
+  const routers = useRoutes(element);
   const location = useLocation();
   const [mainPaddingLeft, setmainPaddingLeft] = useState("200px");
   const [collapsed, setCollapsed] = useState(false);
-  const whitePath: Array<String> = ["/login", "/register"];
-
-  // 是否使用默认布局
-  const isUseLayout = () => {
-    const currentPath = location.pathname;
-    const currentRoutePath = element?.props.value.matches[0].route.path;
-
-    let flag = currentRoutePath === "*";
-
-    if (flag) return flag;
-
-    for (let item of whitePath) {
-      if (item === currentPath) {
-        flag = true;
-        break;
-      }
-    }
-    return flag;
-  };
-
   const [userInfo, setUserInfo] = useState(null);
+
   const isInWhiteList = confirmWhite(
     whiteList,
     "pathWhiteList",
@@ -50,15 +32,20 @@ function AppFC() {
         setUserInfo(res.data.row);
       }
     }
+
     fetchData();
   }, [isInWhiteList]);
 
-  return (
+  const canrender = userInfo || isInWhiteList;
+
+  return !canrender ? (
+    <></>
+  ) : (
     <MyContent.Provider value={{ userInfo }}>
       <App>
         <div className="app">
-          {isUseLayout() ? (
-            element
+          {isUseLayout(location, routers) ? (
+            routers
           ) : (
             <>
               <aside style={{ position: "fixed", left: 0, top: 0, zIndex: 1 }}>
@@ -73,7 +60,7 @@ function AppFC() {
                     setmainPaddingLeft(collapsed ? "200px" : "80px");
                   }}
                 />
-                {element}
+                {routers}
               </div>
             </>
           )}

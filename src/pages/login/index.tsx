@@ -16,13 +16,14 @@ const Login: React.FC = () => {
         const { data: res } = await login({...values, role: 2})
         if (res.code === 1001) {
             localStorage.setItem('token', res.data.access_token)
-            messageApi.success(res.data.message || res.message)
+            const successMsg = '登陆成功'
+            messageApi.success(successMsg)
             setTimeout(() => {
                 navigate('/')
             }, waitTime)
             return
         }
-        messageApi.success(res.message)
+        messageApi.error(res.message)
     };
 
 
