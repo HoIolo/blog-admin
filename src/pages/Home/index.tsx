@@ -29,7 +29,6 @@ const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    document.title = "首页";
     let myCharts = echarts.init(lineWrap.current);
 
     myCharts.setOption({
