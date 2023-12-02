@@ -93,6 +93,8 @@ const Article: React.FC = () => {
       title: "配图",
       dataIndex: "pic",
       key: "pic",
+      width: 100,
+      ellipsis: true,
       render: (url: any) => <Image width={80} src={url} />,
     },
     {

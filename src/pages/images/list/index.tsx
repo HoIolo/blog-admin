@@ -19,12 +19,14 @@ import useTableData from "@/hooks/useTableData";
 import { useState } from "react";
 import { CODE } from "@/constant/global";
 import { useDebounce } from "@/hooks/useDebounce";
+import { formatBytes } from "@/utils/common.util";
 
 interface DataType {
   pic: string;
   key: string;
   picname: string;
   picurl: string;
+  picsize: string;
 }
 
 const dataHandler = (data: Array<Image>): DataType[] => {
@@ -34,6 +36,7 @@ const dataHandler = (data: Array<Image>): DataType[] => {
       key: val.name,
       picname: val.name,
       picurl: val.url,
+      picsize: val.size,
     };
   });
 };
@@ -78,6 +81,7 @@ const ImageList: React.FC = () => {
       title: "图片",
       dataIndex: "pic",
       key: "pic",
+      width: 130,
       render: (url: any) => (
         <ImageComponent src={url} width={100} height={50} />
       ),
@@ -86,12 +90,22 @@ const ImageList: React.FC = () => {
       title: "图片名称",
       dataIndex: "picname",
       key: "picname",
+      ellipsis: true,
+      width: '20%',
     },
     {
       title: "图片地址",
       dataIndex: "picurl",
       key: "picurl",
+      ellipsis: true,
+      width: '45%',
       render: (text: any) => text,
+    },
+    {
+      title: "图片大小",
+      dataIndex: "picsize",
+      key: "picsize",
+      render: (size: string) => formatBytes(+size),
     },
     {
       title: "操作",

@@ -70,3 +70,22 @@ export const isUseLayout = (
   }
   return flag;
 };
+
+/**
+ * 格式化字节大小
+ * @param bytes - 字节大小
+ * @returns 格式化后的字节大小，单位为KB、MB、GB等
+ */
+
+export function formatBytes(bytes: number): string {
+  const units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  let index = 0;
+  let size = bytes;
+
+  while (size >= 1024 && index < units.length - 1) {
+    size /= 1024;
+    index++;
+  }
+
+  return `${size.toFixed(2)} ${units[index]}`;
+}
