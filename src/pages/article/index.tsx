@@ -1,15 +1,18 @@
 import { GetArticleType, delArticle, getArticle } from "@/api/article.api";
 import ArticleDetail from "@/components/Article/articleDetail";
 import { CODE } from "@/constant/global";
+import { useDebounce } from "@/hooks/useDebounce";
 import useTableData from "@/hooks/useTableData";
 import { ArticleType } from "@/types/article";
 import {
   Button,
+  Col,
   Divider,
   Image,
   Input,
   Modal,
   Popconfirm,
+  Row,
   Space,
   Table,
   message,
@@ -177,6 +180,15 @@ const Article: React.FC = () => {
     }
   };
 
+  const handleSearch = (args: any) => {
+    setArticleParams({
+      ...getArticleParams,
+      keyword: args[0].target.value,
+      field: "title",
+    });
+  };
+  const searchDebounce = useDebounce(handleSearch, 500);
+
   return (
     <>
       {contextHolder}
@@ -194,13 +206,16 @@ const Article: React.FC = () => {
         <Space direction="vertical" style={{ width: "100%" }} size={0}>
           <div className="user_list">
             <div className="user_option bg-white p-4 flex align-middle justify-between">
-              <Space>
-                <Input
-                  //   onChange={handleSearch}
-                  placeholder="请输入需要查询的文章名称"
-                ></Input>
-                <Button type="primary">查询</Button>
-              </Space>
+              <Space.Compact block>
+                <Row className="w-full">
+                  <Col span={5}>
+                    <Input
+                      onChange={searchDebounce}
+                      placeholder="请输入需要查询的文章名称"
+                    ></Input>
+                  </Col>
+                </Row>
+              </Space.Compact>
             </div>
             <Divider style={{ margin: 0 }} />
             <Table

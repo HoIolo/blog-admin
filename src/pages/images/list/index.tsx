@@ -2,10 +2,12 @@ import { GetImagesData, delImage, getImages } from "@/api/image.api";
 import { Image } from "@/types/image";
 import {
   Button,
+  Col,
   Divider,
   Image as ImageComponent,
   Input,
   Popconfirm,
+  Row,
   Select,
   Space,
   Table,
@@ -16,7 +18,7 @@ import style from "./index.module.scss";
 import useTableData from "@/hooks/useTableData";
 import { useState } from "react";
 import { CODE } from "@/constant/global";
-import { debounce } from "@/utils/common.util";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface DataType {
   pic: string;
@@ -76,7 +78,9 @@ const ImageList: React.FC = () => {
       title: "图片",
       dataIndex: "pic",
       key: "pic",
-      render: (url: any) => <ImageComponent src={url} width={100} height={50} />,
+      render: (url: any) => (
+        <ImageComponent src={url} width={100} height={50} />
+      ),
     },
     {
       title: "图片名称",
@@ -110,12 +114,10 @@ const ImageList: React.FC = () => {
     },
   ];
 
-  const handleSearch = (e: any) => {
-    debounce(
-      () => setImagesParams({ ...getImagesParams, keyword: e.target.value }),
-      500
-    )();
+  const handleSearch = (args: any) => {
+    setImagesParams({ ...getImagesParams, keyword: args[0].target.value });
   };
+  const searchDebounce = useDebounce(handleSearch, 500);
 
   return (
     <>
@@ -124,22 +126,30 @@ const ImageList: React.FC = () => {
         <Space direction="vertical" style={{ width: "100%" }} size={0}>
           <div className="user_list">
             <div className="user_option bg-white p-4 flex align-middle justify-between">
-              <Space>
-                <Input
-                  onChange={handleSearch}
-                  placeholder="请输入需要查询的图片名称"
-                ></Input>
-                <Button type="primary">查询</Button>
-              </Space>
-              <Space>
-                <span>图片来源:</span>
-                <Select
-                  defaultValue={getImagesParams.local}
-                  onChange={changePicSource}
-                  style={{ width: 80 }}
-                  options={picSourceSelect}
-                />
-              </Space>
+              <Space.Compact block>
+                <Row className="w-full" justify="space-between">
+                  <Col span={5}>
+                    <div className="search">
+                      <Input
+                        onChange={searchDebounce}
+                        placeholder="请输入需要查询的图片名称"
+                      ></Input>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="source">
+                      <span>图片来源:</span>
+                      <Select
+                        className="ml-3"
+                        defaultValue={getImagesParams.local}
+                        onChange={changePicSource}
+                        style={{ width: 80 }}
+                        options={picSourceSelect}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </Space.Compact>
             </div>
             <Divider style={{ margin: 0 }} />
             <Table
