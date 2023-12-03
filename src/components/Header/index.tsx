@@ -75,6 +75,20 @@ const Header: React.FC<propsType> = (props: propsType) => {
     </div>
   );
 
+  const PopoverAvatar = (
+    <Popover
+      content={userInfo ? content : <>您还未登陆</>}
+      trigger="hover"
+      placement="bottomRight"
+    >
+      <Avatar
+        size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48 }}
+        icon={<AntDesignOutlined rev={undefined} />}
+        src={userInfo?.avatar}
+      />
+    </Popover>
+  );
+
   return (
     <>
       {contextHolder}
@@ -93,19 +107,7 @@ const Header: React.FC<propsType> = (props: propsType) => {
           className="p-4 bg-white"
         ></Breadcrumb>
         <div className="avatar">
-          <Link to={userInfo ? "" : "/login"}>
-            <Popover
-              content={userInfo ? content : <>您还未登陆</>}
-              trigger="hover"
-              placement="bottomRight"
-            >
-              <Avatar
-                size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48 }}
-                icon={<AntDesignOutlined rev={undefined} />}
-                src={userInfo?.avatar}
-              />
-            </Popover>
-          </Link>
+          {userInfo ? PopoverAvatar : <Link to="/login"></Link>}
         </div>
       </div>
     </>
