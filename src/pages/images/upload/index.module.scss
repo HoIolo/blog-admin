@@ -1,0 +1,19 @@
+.uploadWrap {
+  :global {
+    .ant-upload-list {
+      background-color: #fff;
+      min-height: calc((66px + 8px) * 5 + 8px);
+      margin: 8px 0;
+      padding: 8px;
+      border-radius: 8px;
+
+      &::before {
+        font-size: 18px;
+        content: "上传列表";
+      }
+      .ant-upload-list-item {
+        border: none !important;
+      }
+    }
+  }
+}

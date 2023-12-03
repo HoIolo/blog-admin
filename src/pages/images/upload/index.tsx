@@ -9,7 +9,7 @@ import {
   Select,
 } from "antd";
 import Dragger from "antd/es/upload/Dragger";
-import "./index.css";
+import style from "./index.module.scss";
 import { useState } from "react";
 import { RcFile } from "antd/es/upload";
 import { uploadImage } from "@/api/image.api";
@@ -148,7 +148,7 @@ const ImagesUpload: React.FC = () => {
               ]}
             ></Select>
           </Space>
-          <Dragger {...props}>
+          <Dragger className={style.uploadWrap} {...props}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined rev={undefined} />
             </p>
