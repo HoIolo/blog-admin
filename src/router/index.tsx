@@ -7,6 +7,7 @@ import ImagesUpload from "@/pages/images/upload";
 import { Link } from "react-router-dom";
 import ImageList from "@/pages/images/list";
 import Article from "@/pages/article";
+import Comments from "@/pages/comments";
 
 const getElements = () => {
   return [
@@ -45,6 +46,11 @@ const getElements = () => {
       path: "/article",
       name: "文章管理",
       element: <Article />,
+    },
+    {
+      path: "/comments",
+      name: "评论管理",
+      element: <Comments />,
     },
     {
       path: "/images",

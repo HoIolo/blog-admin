@@ -16,3 +16,10 @@ export type PageParams = {
   keyword?: string;
   field?: string;
 };
+
+export type BaseType = {
+  id: number;
+  createTime: string;
+  updatedTime: string;
+  deleteAt: string;
+};
