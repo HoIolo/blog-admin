@@ -80,7 +80,22 @@ const Comments: React.FC = () => {
       dataIndex: "user_avatar",
       key: "user_avatar",
       width: 100,
-      render: (url: string) => <Image src={url} width={60} height={60} />,
+      render: (url: string) => {
+        let picSrc = url;
+        let previewSrc = url;
+        if (url.includes(process.env.REACT_APP_PIC_DOMAIN + "")) {
+          picSrc = url + "!v1/both/60x60";
+          previewSrc = url + "!v1";
+        }
+        return (
+          <Image
+            src={picSrc}
+            preview={{ src: previewSrc }}
+            width={60}
+            height={60}
+          />
+        );
+      },
     },
     {
       title: "用户昵称",

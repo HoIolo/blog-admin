@@ -20,6 +20,7 @@ import { useState } from "react";
 import { CODE } from "@/constant/global";
 import { useDebounce } from "@/hooks/useDebounce";
 import { formatBytes } from "@/utils/common.util";
+import { url } from "inspector";
 
 interface DataType {
   pic: string;
@@ -82,23 +83,36 @@ const ImageList: React.FC = () => {
       dataIndex: "pic",
       key: "pic",
       width: 130,
-      render: (url: any) => (
-        <ImageComponent src={url} width={100} height={50} />
-      ),
+      render: (url: string) => {
+        let picSrc = url;
+        let previewSrc = url;
+        if (url.includes(process.env.REACT_APP_PIC_DOMAIN + "")) {
+          picSrc = url + "!v1/both/100x50";
+          previewSrc = url + "!v1";
+        }
+        return (
+          <ImageComponent
+            src={picSrc}
+            preview={{ src: previewSrc }}
+            width={100}
+            height={50}
+          />
+        );
+      },
     },
     {
       title: "图片名称",
       dataIndex: "picname",
       key: "picname",
       ellipsis: true,
-      width: '20%',
+      width: "20%",
     },
     {
       title: "图片地址",
       dataIndex: "picurl",
       key: "picurl",
       ellipsis: true,
-      width: '45%',
+      width: "45%",
       render: (text: any) => text,
     },
     {

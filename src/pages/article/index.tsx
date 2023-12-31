@@ -95,7 +95,15 @@ const Article: React.FC = () => {
       key: "pic",
       width: 100,
       ellipsis: true,
-      render: (url: any) => <Image width={80} src={url} />,
+      render: (url: any) => {
+        let picSrc = url;
+        let previewSrc = url;
+        if (url.includes(process.env.REACT_APP_PIC_DOMAIN + "")) {
+          picSrc = url + "!v1/both/80x60";
+          previewSrc = url + "!v1";
+        }
+        return <Image width={80} height={60} src={picSrc} preview={{ src: previewSrc }} />;
+      },
     },
     {
       title: "标题",
