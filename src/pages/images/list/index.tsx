@@ -20,7 +20,6 @@ import { useState } from "react";
 import { CODE } from "@/constant/global";
 import { useDebounce } from "@/hooks/useDebounce";
 import { formatBytes } from "@/utils/common.util";
-import { url } from "inspector";
 
 interface DataType {
   pic: string;
