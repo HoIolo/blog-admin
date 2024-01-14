@@ -25,6 +25,7 @@ const Login: React.FC = () => {
       }, waitTime);
       return;
     }
+    setLoginLoading(false);
     messageApi.error(res.message);
   };
 

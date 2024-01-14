@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/types/common";
+import { ApiResponse, ResponseData } from "@/types/common";
 import http from "../utils/http";
 
 const PERFIX = "/api/v1";
@@ -36,6 +36,25 @@ export const login = (data: any) => {
  */
 export const getUsers = (data?: any) => {
   return http.get<ApiResponse<any>>(PERFIX + "/users", data);
+};
+
+type UpdateUserProfileType = {
+  id: number;
+  name?: string;
+  avatar?: string;
+  signature?: string;
+  sex?: number;
+};
+/**
+ * 按uid更新用户信息
+ * @param data
+ * @returns
+ */
+export const updateUserProfile = (data: UpdateUserProfileType) => {
+  return http.patch<ApiResponse<any>>(
+    PERFIX + "/user/profile/" + data.id,
+    data
+  );
 };
 
 /**
