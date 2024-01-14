@@ -95,3 +95,39 @@ export function formatBytes(bytes: number): string {
 
   return `${size.toFixed(2)} ${units[index]}`;
 }
+type transformParam = {
+  url: string;
+  options: transformOptions;
+};
+type transformOptions = {
+  width?: number;
+  quality?: number;
+  height?: number;
+  widthAndHeight?: string;
+};
+/**
+ * 又拍云储存服务转化图片url
+ * @param url
+ * @param options
+ * @returns
+ */
+export const transformUpYunPicUrl = (params: transformParam) => {
+  const domain = process.env.REACT_APP_PIC_DOMAIN || "";
+  const { url, options } = params;
+  function splicingParam(param: string | number | undefined, splice: string) {
+    return param ? splice + param : "";
+  }
+  if (url.includes(domain) && !url.includes("!")) {
+    return (
+      url +
+      `!v1/format/webp${splicingParam(options.width, "/fw/")}${splicingParam(
+        options.quality,
+        "/quality/"
+      )}${splicingParam(options.height, "/fh/")}${splicingParam(
+        options.widthAndHeight,
+        "/both/"
+      )}`
+    );
+  }
+  return url;
+};
