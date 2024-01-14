@@ -29,7 +29,7 @@ export const confirmWhite = (
  * @param sex
  * @returns
  */
-export const getUserSex = (sex: number): string => {
+export const getUserSex = (sex: number | string): string | number => {
   switch (sex) {
     case 0:
       return "保密";
@@ -37,6 +37,12 @@ export const getUserSex = (sex: number): string => {
       return "男";
     case 2:
       return "女";
+    case "保密":
+      return 0;
+    case "男":
+      return 1;
+    case "女":
+      return 2;
     default:
       return "人妖";
   }
