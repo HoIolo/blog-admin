@@ -82,7 +82,7 @@ const Header: React.FC<propsType> = (props: propsType) => {
       placement="bottomRight"
     >
       <Avatar
-        size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48 }}
+        size={{ xs: 36, sm: 36, md: 48, lg: 48, xl: 48, xxl: 48 }}
         icon={<AntDesignOutlined rev={undefined} />}
         src={userInfo?.avatar}
       />
