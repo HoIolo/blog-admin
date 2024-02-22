@@ -1,16 +1,10 @@
-import {
-  UserOutlined,
-  BookOutlined,
-  HomeOutlined,
-  MessageOutlined,
-  SettingOutlined,
-  PictureOutlined,
-} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./index.css";
+import getElements from "@/router";
+import MyContent from "@/content";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -29,77 +23,39 @@ function getItem(
     type,
   } as MenuItem;
 }
+const getTabsItem = (route: any, parentPath: string, userRole: number): any => {
+  if (!route || route.meta.role > userRole) return undefined;
 
-const items: MenuItem[] = [
-  getItem(
-    <>
-      <Link to="/">首页</Link>
-    </>,
-    "/",
-    <HomeOutlined rev={undefined} />
-  ),
+  const linkPath = route.path.startsWith("/")
+    ? route.path
+    : parentPath + "/" + route.path;
 
-  getItem("账号管理", "/account", <UserOutlined rev={undefined} />, [
-    getItem(
+  return getItem(
+    route.children?.length ? (
+      (route?.meta as any)?.title
+    ) : (
       <>
-        <Link to="/account/user">用户</Link>
-      </>,
-      "/account/user"
+        <Link to={linkPath}>{route.meta?.title}</Link>
+      </>
     ),
-    getItem(
-      <>
-        <Link to="/account/admin">管理员</Link>
-      </>,
-      "/account/admin"
-    ),
-  ]),
+    route.path,
+    route.meta?.icon,
+    (route.children as any)?.map((child: any) =>
+      getTabsItem(child, route.path, userRole)
+    ) ?? undefined
+  );
+};
+const tabs: MenuItem[] = [];
+const routes = getElements();
 
-  getItem(
-    <>
-      <Link to="/article">文章管理</Link>
-    </>,
-    "/article",
-    <BookOutlined rev={undefined} />
-  ),
-
-  getItem(
-    <>
-      <Link to="/comments">评论管理</Link>
-    </>,
-    "/comments",
-    <MessageOutlined rev={undefined} />
-  ),
-
-  getItem(
-    <>
-      <Link to="/setting">网站设置</Link>
-    </>,
-    "/setting",
-    <SettingOutlined rev={undefined} />
-  ),
-
-  getItem(
-    <>
-      <span>图片管理</span>
-    </>,
-    "/images",
-    <PictureOutlined rev={undefined} />,
-    [
-      getItem(
-        <>
-          <Link to="/images/upload">图片上传</Link>
-        </>,
-        "/images/upload"
-      ),
-      getItem(
-        <>
-          <Link to="/images/list">图片列表</Link>
-        </>,
-        "/images/list"
-      ),
-    ]
-  ),
-];
+const initTabs = (userRole: number) => {
+  if (tabs.length === 0)
+    for (let route of routes) {
+      if (route.hidden) continue;
+      const item = getTabsItem(route, "", userRole);
+      if (item) tabs.push(item);
+    }
+};
 
 interface propsType {
   collapsed: boolean;
@@ -107,6 +63,9 @@ interface propsType {
 
 const TabMenu: React.FC<propsType> = (props: propsType) => {
   const location = useLocation();
+  const values = useContext(MyContent);
+
+  initTabs(values.userInfo.user.role);
 
   const setAdminTitle = (collapsed: Boolean) => {
     return collapsed ? "A" : "个人博客后台";
@@ -135,7 +94,7 @@ const TabMenu: React.FC<propsType> = (props: propsType) => {
         mode="inline"
         theme="dark"
         inlineCollapsed={props.collapsed}
-        items={items}
+        items={tabs}
         style={{ minHeight: "calc(100vh - 2.5rem - 40px)" }}
       />
     </div>

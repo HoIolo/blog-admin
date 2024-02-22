@@ -23,7 +23,10 @@ function recursionAssign(item: any): any {
     return null;
   }
   for (const child of item.children) {
-    breadcrumbNameMap[item.path + "/" + child.path] = child.name as string;
+    const path = child.path.startsWith("/")
+      ? child.path
+      : item.path + "/" + child.path;
+    breadcrumbNameMap[path] = child.name as string;
     recursionAssign(child);
   }
 }
