@@ -14,19 +14,21 @@ const Login: React.FC = () => {
 
   const onFinish = async (values: any) => {
     setLoginLoading(true);
-    const { data: res } = await login({ ...values, role: 2 });
-    if (res.code === 1001) {
-      localStorage.setItem("token", res.data.access_token);
-      const successMsg = "登陆成功";
-      messageApi.success(successMsg);
+    try {
+      const { data: res } = await login({ ...values, role: 2 });
+      if (res.code === 1001) {
+        localStorage.setItem("token", res.data.access_token);
+        const successMsg = "登陆成功";
+        messageApi.success(successMsg);
+        setLoginLoading(false);
+        setTimeout(() => {
+          navigate("/");
+        }, waitTime);
+        return;
+      }
+    } catch(err: any) {
       setLoginLoading(false);
-      setTimeout(() => {
-        navigate("/");
-      }, waitTime);
-      return;
     }
-    setLoginLoading(false);
-    messageApi.error(res.message);
   };
 
   return (
