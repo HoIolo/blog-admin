@@ -15,7 +15,12 @@ import {
   message,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { getUsers, updateUserProfile } from "@/api/user.api";
+import {
+  getUsers,
+  updateUserProfile,
+  updateUserRole,
+  updateUserStatus,
+} from "@/api/user.api";
 import { getUserSex, transformUpYunPicUrl } from "@/utils/common.util";
 import useTableData from "@/hooks/useTableData";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
@@ -24,14 +29,17 @@ import { UserType } from "@/types/user";
 import ImgCrop from "antd-img-crop";
 import { RcFile } from "antd/es/upload";
 import { uploadImage } from "@/api/image.api";
+import dayjs from "dayjs";
 
 interface DataType {
   key: number;
   name: string;
   sex: number;
+  status: 0 | 1;
   isAdmin: Boolean;
   address: string;
   tags: string[];
+  signDate: string;
 }
 
 type FieldType = {
@@ -53,6 +61,7 @@ const onChange = (checked: boolean) => {
 };
 
 const dataHandler = (data: any): DataType[] => {
+  const format = "YYYY-MM-DD";
   return data.map((val: any) => {
     return {
       key: val.id,
@@ -60,6 +69,8 @@ const dataHandler = (data: any): DataType[] => {
       name: val.profile.name,
       sex: getUserSex(val.profile.sex),
       isAdmin: val.role > 1,
+      status: !val.status,
+      signDate: dayjs(val.createTime).format(format),
     };
   });
 };
@@ -100,6 +111,33 @@ const Account: React.FC = () => {
     setIsViewModalOpen(true);
   };
 
+  /** 修改用户角色 */
+  const handleRoleChange = async (checked: boolean, record: DataType) => {
+    const { data: updateResult } = await updateUserRole({
+      id: record.key,
+      role: checked ? 2 : 1,
+    });
+    if (updateResult.code === 1001) {
+      const successMessage = checked ? "变更为管理员" : "变更为普通用户";
+      messageApi.success(successMessage);
+    } else {
+      messageApi.error("系统繁忙，请稍后再试！");
+    }
+  };
+
+  const handleStatusChange = async (checked: boolean, record: DataType) => {
+    const { data: updateResult } = await updateUserStatus({
+      id: record.key,
+      isBan: checked,
+    });
+    if (updateResult.code === 1001) {
+      const successMessage = checked ? "封禁成功" : "解禁成功";
+      messageApi.success(successMessage);
+    } else {
+      messageApi.error("系统繁忙，请稍后再试！");
+    }
+  };
+
   const columns: ColumnsType<DataType> = [
     {
       title: "头像",
@@ -122,27 +160,28 @@ const Account: React.FC = () => {
       title: "管理员",
       dataIndex: "isAdmin",
       key: "isAdmin",
-      render: (isAdmin) => (
-        <Switch checked={isAdmin} defaultChecked onChange={onChange} />
-      ),
-    },
-    {
-      title: "当前状态",
-      key: "status",
-      dataIndex: "status",
-      render: (status) => (
-        <Tag color={"green"} key={status}>
-          在线
-        </Tag>
+      render: (isAdmin, record) => (
+        <Switch
+          defaultChecked={isAdmin}
+          onChange={(checked: boolean) => handleRoleChange(checked, record)}
+        />
       ),
     },
     {
       title: "是否封禁",
-      dataIndex: "isDenyAccess",
-      key: "isDenyAccess",
-      render: (isDenyAccess) => (
-        <Switch checked={isDenyAccess} defaultChecked onChange={onChange} />
+      dataIndex: "status",
+      key: "status",
+      render: (status, record) => (
+        <Switch
+          defaultChecked={status}
+          onChange={(checked: boolean) => handleStatusChange(checked, record)}
+        />
       ),
+    },
+    {
+      title: "注册时间",
+      dataIndex: "signDate",
+      key: "signDate",
     },
     {
       title: "操作",
@@ -312,6 +351,7 @@ const Account: React.FC = () => {
           </div>
           <Divider style={{ margin: 0 }} />
           <Table
+            scroll={{ x: "max-content" }}
             loading={isloading}
             columns={columns}
             dataSource={tableData}

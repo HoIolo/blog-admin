@@ -64,3 +64,35 @@ export const updateUserProfile = (data: UpdateUserProfileType) => {
 export const logout = () => {
   return localStorage.removeItem("token");
 };
+
+type UpdateUserRoleType = {
+  id: number;
+  role: number;
+};
+/**
+ * 按uid更新用户角色
+ * @param data
+ * @returns
+ */
+export const updateUserRole = (data: UpdateUserRoleType) => {
+  return http.patch<ApiResponse<any>>(
+    PERFIX + "/user/" + data.id + "/role",
+    data
+  );
+};
+
+type UpdateUserStatusType = {
+  id: number;
+  isBan: boolean;
+};
+/**
+ * 按uid更新用户状态
+ * @param data
+ * @returns
+ */
+export const updateUserStatus = (data: UpdateUserStatusType) => {
+  return http.patch<ApiResponse<any>>(
+    PERFIX + "/user/" + data.id + "/ban",
+    data
+  );
+};

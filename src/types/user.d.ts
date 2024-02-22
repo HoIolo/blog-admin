@@ -7,6 +7,7 @@ export type UserType = BaseType & {
   sign_time: string;
   role: number;
   salt: string;
+  status: 0 | 1;
   profile: ProfileType;
 };
 
