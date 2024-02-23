@@ -16,6 +16,7 @@ import {
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import Tags from "@/pages/article/tags";
 
 const getElements = () => {
   return [
@@ -66,6 +67,12 @@ const getElements = () => {
           name: "文章列表",
           meta: { title: "文章列表" },
           element: <Article />,
+        },
+        {
+          path: "/article/tags",
+          name: "标签列表",
+          meta: { title: "标签列表" },
+          element: <Tags />,
         },
       ],
     },
