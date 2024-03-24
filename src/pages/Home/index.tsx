@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts/lib/echarts";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/title";
@@ -18,6 +18,8 @@ import { confirmWhite } from "@/utils/common.util";
 import whiteList from "@/config/whiteList.config";
 import { useLocation } from "react-router-dom";
 import MyContent from "@/content";
+import { getHomeDetail } from "@/api/home.api";
+import { HomeData } from "@/types/home";
 
 const Home: React.FC = () => {
   const location = useLocation();
@@ -27,6 +29,18 @@ const Home: React.FC = () => {
     "pathWhiteList",
     location.pathname
   );
+  const [statistics, setStatistics] = useState<HomeData>();
+
+  async function getHomeData() {
+    const { data: res } = await getHomeDetail();
+    if (res.code === 1001) {
+      setStatistics(res.data?.row);
+    }
+  }
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
 
   useEffect(() => {
     let myCharts = echarts.init(lineWrap.current);
@@ -97,7 +111,7 @@ const Home: React.FC = () => {
         <UserOutlined className="md:text-4xl lg:text-5xl" rev={undefined} />
       ),
       title: "用户数量",
-      num: "50",
+      num: statistics?.userTotal,
     },
     {
       id: 2,
@@ -105,7 +119,7 @@ const Home: React.FC = () => {
         <BookOutlined className="md:text-4xl lg:text-5xl" rev={undefined} />
       ),
       title: "文章数量",
-      num: "50",
+      num: statistics?.articleTotal,
     },
     {
       id: 3,
@@ -113,10 +127,18 @@ const Home: React.FC = () => {
         <CommentOutlined className="md:text-4xl lg:text-5xl" rev={undefined} />
       ),
       title: "评论数量",
-      num: "50",
+      num: statistics?.commentTotal,
     },
     {
       id: 4,
+      icon: (
+        <CommentOutlined className="md:text-4xl lg:text-5xl" rev={undefined} />
+      ),
+      title: "标签数量",
+      num: statistics?.tagTotal,
+    },
+    {
+      id: 5,
       icon: <EyeOutlined className="md:text-4xl lg:text-5xl" rev={undefined} />,
       title: "网站访问量",
       num: "50",
