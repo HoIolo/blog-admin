@@ -9,6 +9,7 @@ import { getUserInfo } from "./api/user.api";
 import { confirmWhite, isUseLayout } from "./utils/common.util";
 import whiteList from "./config/whiteList.config";
 import { App } from "antd";
+import permission from "./permission";
 
 function AppFC() {
   const element = getElements();
@@ -23,6 +24,8 @@ function AppFC() {
     "pathWhiteList",
     location.pathname
   );
+  permission(isInWhiteList);
+
 
   useEffect(() => {
     async function fetchData() {
