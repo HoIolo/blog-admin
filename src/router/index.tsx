@@ -17,6 +17,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import Tags from "@/pages/article/tags";
+import PrivateRoute from "./privateRoute";
 
 const getElements = () => {
   return [
@@ -24,7 +25,11 @@ const getElements = () => {
       path: "/",
       name: "首页",
       meta: { title: "首页", icon: <HomeOutlined rev={undefined} /> },
-      element: <Home />,
+      element: (
+        <PrivateRoute>
+          <Home />
+        </PrivateRoute>
+      ),
     },
     {
       path: "/login",

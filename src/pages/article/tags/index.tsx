@@ -100,9 +100,7 @@ const Tags: React.FC = () => {
       key: "action",
       render: (_: any, record) => (
         <Space size="middle">
-          <Button type="text">
-            查看
-          </Button>
+          <Button type="text">查看</Button>
           <Popconfirm
             title="确认要删除吗？"
             description="请谨慎操作！"
@@ -169,6 +167,7 @@ const Tags: React.FC = () => {
   const addTagModalOk = () => {
     setShowAddTagModal(false);
     addTagModalForm?.submit();
+    addTagModalForm?.resetFields();
   };
 
   // 新增标签
