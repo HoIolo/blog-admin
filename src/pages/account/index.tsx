@@ -17,6 +17,7 @@ import {
 import type { ColumnsType } from "antd/es/table";
 import {
   getUsers,
+  GetUsersType,
   updateUserProfile,
   updateUserRole,
   updateUserStatus,
@@ -56,10 +57,6 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
-const onChange = (checked: boolean) => {
-  console.log(`switch to ${checked}`);
-};
-
 const dataHandler = (data: any): DataType[] => {
   const format = "YYYY-MM-DD";
   return data.map((val: any) => {
@@ -78,15 +75,29 @@ const dataHandler = (data: any): DataType[] => {
 const Account: React.FC = () => {
   const [refreshTable, setRefreshTable] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const { tableData, responseData, isloading } = useTableData<UserType>({
-    fetchData: getUsers,
-    dataHandler,
-    watchData: [refreshTable],
+  const [getUsersParams, setUsersParams] = useState<GetUsersType>({
+    page: 1,
+    offset: 10,
   });
+  const { tableData, responseData, isloading, tableParams } =
+    useTableData<UserType>({
+      fetchData: () => getUsers(getUsersParams),
+      dataHandler,
+      watchData: [refreshTable, setUsersParams],
+    });
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [viewModalTitle, setViewModalTitle] = useState("标题");
   const [form] = Form.useForm();
   const [avatarUrl, setAvatarUrl] = useState<string>();
+  const [getSearchForm, setSearchForm] = useState<{
+    field: string;
+    keyword: string;
+    searchType: string;
+  }>({
+    field: "account",
+    keyword: "",
+    searchType: "=",
+  });
 
   // 显示查看资料弹窗
   const onViewModal = (record: DataType) => {
@@ -264,6 +275,16 @@ const Account: React.FC = () => {
     });
   };
 
+  // 用户查询
+  const handleSearch = () => {
+    setUsersParams({
+      ...getUsersParams,
+      field: getSearchForm.field,
+      searchType: getSearchForm.searchType,
+      keyword: getSearchForm.keyword,
+    });
+  };
+
   return (
     <div className="custom_container">
       {contextHolder}
@@ -336,17 +357,33 @@ const Account: React.FC = () => {
           <div className="user_option bg-white p-4">
             <Space>
               <Select
-                defaultValue="jack"
+                defaultValue="account"
                 className="w-24"
                 options={[
-                  { value: "jack", label: "Jack" },
-                  { value: "lucy", label: "Lucy" },
-                  { value: "Yiminghe", label: "yiminghe" },
-                  { value: "disabled", label: "Disabled", disabled: true },
+                  { value: "account", label: "账号" },
+                  { value: "email", label: "邮箱" },
                 ]}
+                onChange={(value) => {
+                  setSearchForm({ ...getSearchForm, field: value });
+                }}
               ></Select>
-              <Input placeholder="请输入需要查询的内容"></Input>
-              <Button type="primary">查询</Button>
+              <Input
+                onChange={(e) => {
+                  setSearchForm({
+                    ...getSearchForm,
+                    keyword: e.target.value,
+                  });
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                placeholder="请输入需要查询的内容"
+              ></Input>
+              <Button onClick={handleSearch} type="primary">
+                查询
+              </Button>
             </Space>
           </div>
           <Divider style={{ margin: 0 }} />
@@ -355,7 +392,7 @@ const Account: React.FC = () => {
             loading={isloading}
             columns={columns}
             dataSource={tableData}
-            pagination={{ pageSize: responseData?.count }}
+            pagination={tableParams.pagination}
           />
         </div>
       </Space>
