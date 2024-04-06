@@ -31,6 +31,7 @@ export const login = (data: any) => {
 
 export type GetUsersType = PageParams & {
   searchType?: string;
+  admin?: boolean;
 };
 /**
  * 获取所有用户信息
@@ -98,4 +99,13 @@ export const updateUserStatus = (data: UpdateUserStatusType) => {
     PERFIX + "/user/" + data.id + "/ban",
     data
   );
+};
+
+/**
+ * 按uid删除用户
+ * @param data
+ * @returns
+ */
+export const deleteUser = (id: number) => {
+  return http.delete<ApiResponse<any>>(PERFIX + "/user/" + id);
 };

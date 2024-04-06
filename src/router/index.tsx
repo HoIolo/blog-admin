@@ -18,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import Tags from "@/pages/article/tags";
 import PrivateRoute from "./privateRoute";
+import Admin from "@/pages/account/admin";
 
 const getElements = () => {
   return [
@@ -58,7 +59,7 @@ const getElements = () => {
           path: "/account/admin",
           name: "管理员",
           meta: { title: "管理员" },
-          element: "",
+          element: <Admin />,
         },
       ],
     },
