@@ -47,7 +47,7 @@ const Article: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [getArticleParams, setArticleParams] = useState<GetArticleType>({
     page: 1,
-    pageSize: 10,
+    offset: 10,
     keyword: "",
     field: "",
   });
@@ -102,7 +102,14 @@ const Article: React.FC = () => {
           picSrc = url + "!v1/both/80x60";
           previewSrc = url + "!v1";
         }
-        return <Image width={80} height={60} src={picSrc} preview={{ src: previewSrc }} />;
+        return (
+          <Image
+            width={80}
+            height={60}
+            src={picSrc}
+            preview={{ src: previewSrc }}
+          />
+        );
       },
     },
     {
@@ -173,7 +180,7 @@ const Article: React.FC = () => {
 
     setArticleParams({
       page: pagination.current,
-      pageSize: pagination.pageSize,
+      offset: pagination.pageSize,
       sorted: sorted as any,
       field: "type",
       keyword: type?.join(","),

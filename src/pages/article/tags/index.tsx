@@ -45,7 +45,7 @@ const Tags: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [getTagsParams, setTagsParams] = useState<GetTagsType>({
     page: 1,
-    pageSize: 10,
+    offset: 10,
     keyword: "",
     field: "",
   });
@@ -138,7 +138,7 @@ const Tags: React.FC = () => {
 
     setTagsParams({
       page: pagination.current,
-      pageSize: pagination.pageSize,
+      offset: pagination.pageSize,
       sorted: sorted as any,
       field: "type",
       keyword: type?.join(","),

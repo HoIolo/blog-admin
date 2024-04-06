@@ -1,4 +1,4 @@
-import { ApiResponse, ResponseData } from "@/types/common";
+import { ApiResponse, PageParams, ResponseData } from "@/types/common";
 import http from "../utils/http";
 
 const PERFIX = "/api/v1";
@@ -29,13 +29,16 @@ export const login = (data: any) => {
   return http.post(PERFIX + "/login", data);
 };
 
+export type GetUsersType = PageParams & {
+  searchType?: string;
+};
 /**
  * 获取所有用户信息
  * @param data {类型“getUsersData”与类型“AxiosRequestConfig<any>”不具有相同的属性}
  * @returns
  */
-export const getUsers = (data?: any) => {
-  return http.get<ApiResponse<any>>(PERFIX + "/users", data);
+export const getUsers = (data?: GetUsersType) => {
+  return http.get<ApiResponse<any>>(PERFIX + "/users", { params: data });
 };
 
 type UpdateUserProfileType = {

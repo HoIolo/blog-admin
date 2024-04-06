@@ -12,7 +12,7 @@ export type ResponseData<T> = {
 
 export type PageParams = {
   page?: number;
-  pageSize?: number;
+  offset?: number;
   keyword?: string;
   field?: string;
 };

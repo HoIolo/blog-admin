@@ -44,7 +44,7 @@ const Comments: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [getCommentParams, setCommentParams] = useState<GetCommentType>({
     page: 1,
-    pageSize: 10,
+    offset: 10,
     keyword: "",
     field: "",
   });
@@ -162,7 +162,7 @@ const Comments: React.FC = () => {
 
     setCommentParams({
       page: pagination.current,
-      pageSize: pagination.pageSize,
+      offset: pagination.pageSize,
       sorted: sorted as any,
       field: "createTime",
       keyword: type?.join(","),
