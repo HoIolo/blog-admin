@@ -15,6 +15,7 @@ export type PageParams = {
   offset?: number;
   keyword?: string;
   field?: string;
+  sorted?: "DESC" | "ASC";
 };
 
 export type BaseType = {

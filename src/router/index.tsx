@@ -19,6 +19,7 @@ import {
 import Tags from "@/pages/article/tags";
 import PrivateRoute from "./privateRoute";
 import Admin from "@/pages/account/admin";
+import Setting from "@/pages/setting";
 
 const getElements = () => {
   return [
@@ -114,7 +115,7 @@ const getElements = () => {
         title: "网站设置",
         icon: <SettingOutlined rev={undefined} />,
       },
-      element: "",
+      element: <Setting />,
     },
     {
       path: "*",
