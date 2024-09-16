@@ -167,7 +167,6 @@ const Tags: React.FC = () => {
   const addTagModalOk = () => {
     setShowAddTagModal(false);
     addTagModalForm?.submit();
-    addTagModalForm?.resetFields();
   };
 
   // 新增标签
@@ -175,6 +174,7 @@ const Tags: React.FC = () => {
     const { data: res } = await addTag(values);
     if (res.code === 1001) {
       messageApi.success("添加成功");
+      addTagModalForm?.resetFields();
       fetchTableData();
     }
   };
