@@ -4,6 +4,7 @@ import { CODE } from "@/constant/global";
 import { useDebounce } from "@/hooks/useDebounce";
 import useTableData from "@/hooks/useTableData";
 import { ArticleType } from "@/types/article";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -146,11 +147,11 @@ const Article: React.FC = () => {
             okText="确认"
             cancelText="取消"
           >
-            <Button danger type="text">
+            <Button danger type="text" icon={<DeleteOutlined rev={undefined} />}>
               删除
             </Button>
           </Popconfirm>
-          <Button type="text" onClick={() => openArticleDetailBox(record)}>
+          <Button className="text-sky-500" type="text" icon={<EyeOutlined rev={undefined} />} onClick={() => openArticleDetailBox(record)}>
             查看
           </Button>
         </Space>

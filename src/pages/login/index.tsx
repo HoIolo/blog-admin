@@ -98,9 +98,6 @@ const Login: React.FC = () => {
                 >
                   登陆
                 </Button>
-                <div>
-                  还未注册? 去 <a href="/register">注册</a>
-                </div>
               </Space>
             </Form.Item>
           </Form>

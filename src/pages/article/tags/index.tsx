@@ -21,6 +21,7 @@ import { FilterValue, SorterResult } from "antd/es/table/interface";
 import dayjs from "dayjs";
 import { useState } from "react";
 import AddTag from "./components/addTag";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 
 interface DataType {
   tagName: string;
@@ -100,7 +101,7 @@ const Tags: React.FC = () => {
       key: "action",
       render: (_: any, record) => (
         <Space size="middle">
-          <Button type="text">查看</Button>
+          <Button className="text-sky-500" type="text" icon={<EyeOutlined rev={undefined} />}>查看</Button>
           <Popconfirm
             title="确认要删除吗？"
             description="请谨慎操作！"
@@ -108,7 +109,7 @@ const Tags: React.FC = () => {
             okText="确认"
             cancelText="取消"
           >
-            <Button danger type="text">
+            <Button danger type="text" icon={<DeleteOutlined rev={undefined} />}>
               删除
             </Button>
           </Popconfirm>

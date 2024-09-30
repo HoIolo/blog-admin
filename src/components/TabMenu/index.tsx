@@ -68,7 +68,7 @@ const TabMenu: React.FC<propsType> = (props: propsType) => {
   initTabs(values.userInfo.user.role);
 
   const setAdminTitle = (collapsed: Boolean) => {
-    return collapsed ? "A" : "个人博客后台";
+    return collapsed ? "A" : "智语轩后台";
   };
 
   return (
