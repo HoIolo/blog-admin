@@ -20,6 +20,7 @@ import Tags from "@/pages/article/tags";
 import PrivateRoute from "./privateRoute";
 import Admin from "@/pages/account/admin";
 import Setting from "@/pages/setting";
+import ArticleTypes from "@/pages/article/types";
 
 const getElements = () => {
   return [
@@ -81,6 +82,12 @@ const getElements = () => {
           meta: { title: "标签列表" },
           element: <Tags />,
         },
+        {
+          path: "/article/types",
+          name: "分类列表",
+          meta: { title: "分类列表" },
+          element: <ArticleTypes />,
+        }
       ],
     },
     {

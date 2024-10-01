@@ -140,6 +140,9 @@ const Article: React.FC = () => {
       key: "action",
       render: (_: any, record) => (
         <Space size="middle">
+          <Button className="text-sky-500" type="text" icon={<EyeOutlined rev={undefined} />} onClick={() => openArticleDetailBox(record)}>
+            查看
+          </Button>
           <Popconfirm
             title="确认要删除吗？"
             description="请谨慎操作！"
@@ -151,9 +154,6 @@ const Article: React.FC = () => {
               删除
             </Button>
           </Popconfirm>
-          <Button className="text-sky-500" type="text" icon={<EyeOutlined rev={undefined} />} onClick={() => openArticleDetailBox(record)}>
-            查看
-          </Button>
         </Space>
       ),
     },
